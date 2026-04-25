@@ -39,30 +39,28 @@
                 ฉันเอง
                 <br>
 
-                      
-        <script>
-    // ชื่อไฟล์ที่ต้องการดึง (ต้องอยู่ในโฟลเดอร์เดียวกันบน GitHub)
-    const fileName = 'Text Portfolio Alexa.txt';
+                      <script>
+    const fileName = 'TextPortfolioAlexa.txt';
 
     fetch(fileName)
         .then(response => {
             if (!response.ok) {
-                throw new Error('ไม่สามารถดึงข้อมูลไฟล์ได้');
+                // ถ้าหาไฟล์ไม่เจอ จะแสดงข้อความนี้
+                throw new Error('หาไฟล์ไม่เจอ (เช็คชื่อไฟล์อีกครั้ง)');
             }
-            return response.text(); // อ่านข้อมูลเป็นแบบข้อความ (Text)
+            return response.text();
         })
         .then(data => {
-            // นำข้อมูลไปใส่ใน div ที่เราเตรียมไว้
-            document.getElementById('content-display').textContent = data;
+            document.getElementById('show-text').textContent = data;
         })
         .catch(error => {
-            console.error('เกิดข้อผิดพลาด:', error);
-            document.getElementById('content-display').textContent = 'เกิดข้อผิดพลาดในการโหลดข้อมูล';
+            // ถ้าพัง จะเอาสาเหตุมาเขียนลงหน้าจอแทน
+            document.getElementById('show-text').textContent = 'พังเพราะ: ' + error.message;
         });
 </script>
+                
 
-
-                <div id="show-text" style="white-space: pre-wrap; font-size: 1.2rem;">
+<div id="show-text" style="white-space: pre-wrap; font-size: 1.2rem;">
     กำลังดึงข้อมูลจากไฟล์...
 </div>
 
