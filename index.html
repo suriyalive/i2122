@@ -29,41 +29,21 @@
 
         <!--==================== MAIN ====================-->
         <main class="main">
+
+
+             
+        
             <!--==================== HOME ====================-->
             <section class="home section" id="home">
-                        golf test
+                           <div id="home-data">กำลังโหลดข้อมูลหน้า Home...</div>
             </section>
 
             <!--==================== ABOUT ====================-->
             <section class="about section" id="about">
-                ฉันเอง
+              <div id="about-data">กำลังโหลดข้อมูลหน้า About...</div>
                 <br>
 
-                      <script>
-    const fileName = 'TextPortfolioAlexa.txt';
-
-    fetch(fileName)
-        .then(response => {
-            if (!response.ok) {
-                // ถ้าหาไฟล์ไม่เจอ จะแสดงข้อความนี้
-                throw new Error('หาไฟล์ไม่เจอ (เช็คชื่อไฟล์อีกครั้ง)');
-            }
-            return response.text();
-        })
-        .then(data => {
-            document.getElementById('show-text').textContent = data;
-        })
-        .catch(error => {
-            // ถ้าพัง จะเอาสาเหตุมาเขียนลงหน้าจอแทน
-            document.getElementById('show-text').textContent = 'พังเพราะ: ' + error.message;
-        });
-</script>
                 
-
-<div id="show-text" style="white-space: pre-wrap; font-size: 1.2rem;">
-    กำลังดึงข้อมูลจากไฟล์...
-</div>
-
 
                 หลังการดึง
             </section>
@@ -80,7 +60,7 @@
 
             <!--==================== SERVICES ====================-->
             <section class="services section" id="services">
-                
+                    <div id="services-data">กำลังโหลดข้อมูลหน้า Services...</div>
             </section>
 
             <!--==================== PORTFOLIO ====================-->
@@ -117,5 +97,42 @@
 
         <!--==================== MAIN JS ====================-->
         <script src=""></script>
+
+
+<script>
+    const fileName = 'TextPortfolioAlexa.txt';
+
+    fetch(fileName)
+        .then(response => {
+            if (!response.ok) throw new Error('หาไฟล์ไม่เจอ');
+            return response.text();
+        })
+        .then(text => {
+            // 1. แยกข้อมูลด้วยเครื่องหมาย *
+            const sections = text.split('*');
+
+            sections.forEach(section => {
+                const lines = section.trim().split('\n');
+                const header = lines[0].trim(); // เช่น HOME, ABOUT, SERVICES
+                const content = lines.slice(1).join('\n').trim(); // เนื้อหาที่เหลือ
+
+                // 2. ตรวจสอบว่าหัวข้อตรงกับจุดที่เราเตรียมไว้ไหม
+                if (header === 'HOME') {
+                    document.getElementById('home-data').innerText = content;
+                } else if (header === 'ABOUT') {
+                    document.getElementById('about-data').innerText = content;
+                } else if (header === 'SERVICES') {
+                    document.getElementById('services-data').innerText = content;
+                } else if (header === 'PORTFOLIO') {
+                    // ถ้าคุณมี id="portfolio-data" ก็เพิ่มตรงนี้ได้ครับ
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+</script>
+        
+        
     </body>
 </html>
